@@ -1,0 +1,12 @@
+dataset:
+  zju_mocap_path: ../../easy_mocap
+  subject: 'selfdata'
+  sex: 'neutral'
+
+training_view: 0
+max_frames: 1000
+frame_skip: 4
+
+output:
+  dir: ../../processed_data
+  name: 'female-3-casual'

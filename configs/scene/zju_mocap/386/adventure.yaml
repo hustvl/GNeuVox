@@ -1,0 +1,34 @@
+task: 'mocap'
+experiment: 'gneuvox'
+now_subject: '386'
+
+
+##############################################3
+## Data Configuration
+
+train:
+  dataset_module: 'core.data.dataset.train'
+  dataset: 'gen_train'
+
+progress:
+  dataset_module: 'core.data.dataset.train'
+  dataset: 'gen_test'
+
+movement:
+  dataset_module: 'core.data.dataset.train'
+  dataset: '386_test'
+
+freeview:
+  dataset_module: 'core.data.dataset.freeview'
+  dataset: 'gen_test'
+
+tpose:
+  dataset_module: 'core.data.dataset.tpose'
+  dataset: '386_test'
+
+eval_cam:
+  dataset_module: 'core.data.dataset.eval_cam'
+  dataset: '386_test'
+bgcolor: [0., 0., 0.]
+resize_img_scale: 0.5
+load_net: latest

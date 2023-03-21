@@ -1,0 +1,11 @@
+dataset:
+  zju_mocap_path: /data/taoranyi/data/zju_mocap
+  subject: '387'
+  sex: 'neutral'
+
+training_view: 0
+max_frames: 540
+
+output:
+  dir: ../../processed_data
+  name: '387_eval'

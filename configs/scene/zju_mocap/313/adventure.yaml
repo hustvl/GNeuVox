@@ -1,0 +1,33 @@
+task: 'mocap'
+experiment: 'gneuvox'
+now_subject: '313'
+
+##############################################3
+## Data Configuration
+
+train:
+  dataset_module: 'core.data.dataset.train'
+  dataset: '313_train'
+
+progress:
+  dataset_module: 'core.data.dataset.train'
+  dataset: '313_test'
+
+movement:
+  dataset_module: 'core.data.dataset.train'
+  dataset: '313_test'
+
+freeview:
+  dataset_module: 'core.data.dataset.freeview'
+  dataset: '313_test'
+
+tpose:
+  dataset_module: 'core.data.dataset.tpose'
+  dataset: '313_test'
+  
+eval_cam:
+  dataset_module: 'core.data.dataset.eval_cam'
+  dataset: '313_test'
+
+bgcolor: [0., 0., 0.]
+resize_img_scale: 0.5
