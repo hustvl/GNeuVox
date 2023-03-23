@@ -74,7 +74,7 @@ class CanonicalMLP(nn.Module):
         feature = self.featurenet(rgb_feat)
         density =self.densitynet(feature)
         
-        mask = density>=self.fast_color_thres
+        mask = (density>=self.fast_color_thres)
         # mask = mask.float()
         mask = mask.squeeze(1)    # mask
         density[mask==0] = 0

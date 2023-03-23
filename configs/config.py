@@ -28,24 +28,7 @@ def get_cfg_defaults():
 
 
 def parse_cfg(cfg):
-    cfg.logdir = os.path.join('experiments', cfg.task, cfg.experiment, str(cfg.now_subject))
-
-
-def determine_primary_secondary_gpus(cfg):
-    print("------------------ GPU Configurations ------------------")
-    cfg.n_gpus = torch.cuda.device_count()
-    if cfg.n_gpus > 0:
-        all_gpus = list(range(cfg.n_gpus))
-        cfg.primary_gpus = [0]
-        if cfg.n_gpus > 1:
-            cfg.secondary_gpus = [g for g in all_gpus \
-                                    if g not in cfg.primary_gpus]
-        else:
-            cfg.secondary_gpus = cfg.primary_gpus
-
-    print(f"Primary GPUs: {cfg.primary_gpus}")
-    print(f"Secondary GPUs: {cfg.secondary_gpus}")
-    print("--------------------------------------------------------")
+    cfg.logdir = os.path.join('experiments', str(cfg.now_subject))
 
 
 def make_cfg(args):
@@ -54,7 +37,6 @@ def make_cfg(args):
     cfg.merge_from_file(args.cfg)
     cfg.merge_from_list(args.opts)
     parse_cfg(cfg)
-    determine_primary_secondary_gpus(cfg)
         
     return cfg
 

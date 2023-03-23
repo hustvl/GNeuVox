@@ -1,5 +1,4 @@
 task: 'mocap_mse'
-subject: 'pre_more'
 experiment: 'male-4-casual'
 now_subject: 'male-4-casual'
 
@@ -16,15 +15,15 @@ progress:
 
 movement:
   dataset_module: 'core.data.dataset.train'
-  dataset: 'gen_more_test'
+  dataset: 'male-4-casual_test'
 
 freeview:
   dataset_module: 'core.data.dataset.freeview'
-  dataset: 'gen_test'
+  dataset: 'male-4-casual_test'
 
 tpose:
   dataset_module: 'core.data.dataset.tpose'
-  dataset: 'gen_test'
+  dataset: 'male-4-casual_test'
 
 eval_cam:
   dataset_module: 'core.data.dataset.eval_cam'

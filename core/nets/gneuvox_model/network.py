@@ -96,7 +96,7 @@ class Network(nn.Module):
         rays_d_flat = torch.reshape(rays_d_br, [-1, pos_xyz.shape[-1]])
 
         # print('same',pos_flat.shape , rays_d_flat.shape )
-        chunk = cfg.netchunk_per_gpu*len(cfg.secondary_gpus)
+        chunk = cfg.netchunk_gpu
 
         result = self._apply_mlp_kernals(
                         pos_flat=pos_flat,
@@ -149,7 +149,7 @@ class Network(nn.Module):
 
 
 
-            xyz_embedded = pos_embed_fn(xyz)
+            # xyz_embedded = pos_embed_fn(xyz)
             obxyz_embedded = pos_embed_fn(obpos)
 
             dir_embedded = dir_embed_fn(dir)
@@ -168,7 +168,7 @@ class Network(nn.Module):
 
 
         output = {}
-        output['raws'] = torch.cat(raws, dim=0).to(cfg.primary_gpus[0])
+        output['raws'] = torch.cat(raws, dim=0)
 
         return output
 
@@ -309,8 +309,6 @@ class Network(nn.Module):
             cnl_bbox_scale_xyz,
             pos_embed_fn,
             dir_embed_fn,
-            smpl_Th,
-            smpl_R,
             bgcolor=None,
             time_id =None,subject_id=None,
             **_):

@@ -21,7 +21,7 @@ def load_network():
     ckpt = torch.load(ckpt_path, map_location='cuda:0')
     model.load_state_dict(ckpt['network'], strict=False)
     print('load network from ', ckpt_path)
-    return model.cuda().deploy_mlps_to_secondary_gpus()
+    return model.cuda()
 
 
 def unpack_alpha_map(alpha_vals, ray_mask, width, height):

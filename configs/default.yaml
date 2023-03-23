@@ -68,7 +68,7 @@ train:
   batch_size: 1
   shuffle: True
   drop_last: False
-  maxiter: 10000
+  maxiter: 1000
   lr: 0.0005  # 5e-4
   lr_mweight_vol_decoder: 0.00005 # 5e-5
   lr_pose_refine: 0.00005        # 5e-5
@@ -76,8 +76,8 @@ train:
   lrate_decay: 500
   optimizer: 'adam'
   log_interval: 20
-  save_checkpt_interval: 10000 #lastest
-  save_model_interval: 10000 # 1000.tar
+  save_checkpt_interval: 1000 #lastest
+  save_model_interval: 1000 # 1000.tar
   ray_shoot_mode: 'patch'
   lossweights:
     lpips: 1
@@ -119,7 +119,7 @@ sex: 'neutral'
 total_bones: 24
 bbox_offset: 0.3
 
-load_net: latest
+load_net: init
 save_all: True    # save all checkpoints
 
 
@@ -132,9 +132,8 @@ N_samples: 128      # number of samples for each ray in coarse ray matching
 
 perturb: 1.        # only for training, set to 0. for no jitter, 1. for jitter
 
-netchunk_per_gpu: 300000 # number of pts sent through network in parallel, decrease if running out of memory
-chunk: 32768   # 32768=1024*32, number of rays processed in parallel, decrease if running out of memory
-n_gpus: 1
+netchunk_gpu: 300000 # number of pts sent through network, decrease if running out of memory
+chunk: 32768   # 32768=1024*32, number of rays processed, decrease if running out of memory
 
 show_alpha: False  
 show_truth: False

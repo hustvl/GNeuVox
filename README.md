@@ -73,7 +73,7 @@ Render the frame input (i.e., training sequence).
 
 Run free-viewpoint rendering on a particular frame (e.g., frame 128).
 
-    python run.py --type freeview 
+    python run.py --type freeview \
         --cfg configs/scene/zju_mocap/377/adventure.yaml  \
         freeview.frame_idx 128
 

@@ -23,8 +23,7 @@ from configs import cfg
 
 class Dataset(torch.utils.data.Dataset):
     ROT_CAM_PARAMS = {
-        'zju_mocap': {'rotate_axis': 'z', 'inv_angle': True},
-        'wild': {'rotate_axis': 'y', 'inv_angle': False}
+        'mocap': {'rotate_axis': 'z', 'inv_angle': True},
     }
 
     def __init__(
