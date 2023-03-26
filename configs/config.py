@@ -10,9 +10,9 @@ from third_parties.yacs import CfgNode as CN
 _C = CN()
 
 # "resume" should be train options but we lift it up for cmd line convenience
-_C.resume = False
+_C.resume = True
 # current iteration -- set a very large value for evaluation
-_C.eval_iter = 10000000
+_C.eval_iter = 100000
 
 # for rendering
 _C.render_folder_name = ""
@@ -28,7 +28,7 @@ def get_cfg_defaults():
 
 
 def parse_cfg(cfg):
-    cfg.logdir = os.path.join('experiments', str(cfg.now_subject))
+    cfg.logdir = os.path.join('experiments', cfg.task,str(cfg.now_subject))
 
 
 def make_cfg(args):

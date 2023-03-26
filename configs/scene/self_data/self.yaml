@@ -1,34 +1,34 @@
-task: 'mocap'
-experiment: 'gneuvox'
-now_subject: '386'
-
+task: 'do_it'
+experiment: 'selfdata'
+now_subject: 'selfdata'
 
 ##############################################3
 ## Data Configuration
 
 train:
   dataset_module: 'core.data.dataset.train'
-  dataset: 'gen_train'
+  dataset: 'selfdata_train'
 
 progress:
   dataset_module: 'core.data.dataset.train'
-  dataset: 'gen_test'
+  dataset: 'selfdata_test'
 
 movement:
   dataset_module: 'core.data.dataset.train'
-  dataset: '386_test'
+  dataset: 'selfdata_test'
 
 freeview:
   dataset_module: 'core.data.dataset.freeview'
-  dataset: 'gen_test'
+  dataset: 'selfdata_test'
 
 tpose:
   dataset_module: 'core.data.dataset.tpose'
-  dataset: '386_test'
+  dataset: 'selfdata_test'
 
 eval_cam:
   dataset_module: 'core.data.dataset.eval_cam'
-  dataset: '386_test'
+  dataset: 'selfdata_test'
+
 bgcolor: [0., 0., 0.]
-resize_img_scale: 0.5
+resize_img_scale: 0.474
 load_net: latest

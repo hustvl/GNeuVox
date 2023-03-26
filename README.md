@@ -2,7 +2,7 @@
 
 
 ![block](./imgs/framework.png)
-Rendering moving human bodies at free viewpoints only from a monocular video is quite a challenging problem. The information is too sparse to model complicated human body structures and motions from both view and pose dimensions. Neural radiance fields (NeRF) have shown great power in novel view synthesis and have been applied to human body rendering. However, most current NeRF-based methods bear huge costs for both training and rendering, which impedes the wide applications in real-life scenarios. In this paper, we propose a rendering framework that can learn moving human body structures extremely quickly from a monocular video. The framework is built by integrating both neural fields and neural voxels. Especially, a set of generalizable neural voxels are constructed. With pretrained on various human bodies, these general voxels represent a basic skeleton and can provide strong geometric priors. For the fine-tuning process, individual voxels are constructed for learning differential textures, complementary to general voxels. Thus learning a novel body can be further accelerated, taking only a few minutes. Our method shows significantly higher training efficiency compared with previous methods, while maintaining similar rendering quality.
+In this paper, we propose a rendering framework that can learn moving human body structures extremely quickly from a monocular video, named as GNeuVox. The framework is built by integrating both neural fields and neural voxels. Especially, a set of generalizable neural voxels are constructed. With pretrained on various human bodies, these general voxels represent a basic skeleton and can provide strong geometric priors. For the fine-tuning process, individual voxels are constructed for learning differential textures, complementary to general voxels. Thus learning a novel body can be further accelerated, taking only a few minutes. Our method shows significantly higher training efficiency compared with previous methods, while maintaining similar rendering quality.
 ## Prerequisite
 
 ### Configure Environment
@@ -45,7 +45,7 @@ Finally, run the data preprocessing script.
 
 ### Prepare The People Snapshot Dataset
 
-First, you have to first read and agree the license terms [here](https://graphics.tu-bs.de/people-snapshot). Then you can download the data we have processed with EasyMocap from [google drive](https://drive.google.com/drive/folders/1wJ1oj82eGNXp0xjGmzNj_-SguE60ikB7?usp=sharing) and [baidu drive](https://pan.baidu.com/s/1Bf6qON0yJ1mk0cEpoHdFCw?pwd=hsnq).
+First, you have to first read and agree the license terms [here](https://graphics.tu-bs.de/people-snapshot). Then you can download the data we have processed with EasyMocap from [google drive](https://drive.google.com/drive/folders/1wJ1oj82eGNXp0xjGmzNj_-SguE60ikB7?usp=sharing) and [baidu drive](https://pan.baidu.com/s/1yaxXwdWJ4dB2zV1iQ6rU-g?pwd=ko2e).
 
 
 ### Prepare A Monocular Self-rotating Video
@@ -57,31 +57,31 @@ Use [EasyMocap](https://chingswy.github.io/easymocap-public-doc/quickstart/quick
 
 ## Training
 
-    python train.py --cfg configs/scene/zju_mocap/377/adventure.yaml
-You can download the pretrained models from [google drive]() and [baidu drive](). Then use `resume` in `configs/config.py` to load the pretrained models.
+    python train.py --cfg configs/scene/zju_mocap/377.yaml
+You can download the pretrained models from [google drive](https://drive.google.com/drive/folders/1wJ1oj82eGNXp0xjGmzNj_-SguE60ikB7?usp=sharing) and [baidu drive](https://pan.baidu.com/s/1yaxXwdWJ4dB2zV1iQ6rU-g?pwd=ko2e). Put the pretrained models in `experiments/$task/$experiment`. Then use `_C.resume = True` in `configs/config.py` to load the pretrained models.
 
 ## Evaluation
 You can use the following script to evaluate the model.
 
-    python eval.py --cfg configs/scene/zju_mocap/377/adventure.yaml 
+    python eval.py --cfg configs/scene/zju_mocap_eval/377.yaml 
 
 ## Render output
 Render the frame input (i.e., training sequence).
 
     python run.py --type movement \
-        --cfg configs/scene/zju_mocap/377/adventure.yaml  
+       --cfg configs/scene/zju_mocap_eval/377.yaml   
 
 Run free-viewpoint rendering on a particular frame (e.g., frame 128).
 
     python run.py --type freeview \
-        --cfg configs/scene/zju_mocap/377/adventure.yaml  \
+        --cfg configs/scene/zju_mocap_eval/377.yaml   \
         freeview.frame_idx 128
 
 
 Render the learned canonical appearance (T-pose).
 
     python run.py --type tpose \
-        --cfg configs/scene/zju_mocap/377/adventure.yaml  
+        --cfg configs/scene/zju_mocap_eval/377.yaml   
 ## Main results
 ### The ZJU-Mocap Dataset
 | **Method** | **Pretrain Dataset**  | **Perscene Iterations** |**Time** | **PSNR** | **SSIM** | **LPIPS** (x10<sup>-2</sup>)|

@@ -45,8 +45,6 @@ class Dataset(torch.utils.data.Dataset):
         self.canonical_joints, self.canonical_bbox = \
             self.load_canonical_joints_all()
 
-
-        self.subject_dict={'313':0,'377':1,'386':2,'387':3,'390':4,'392':5,'393':6,'394':7}
         if 'motion_weights_priors' in keyfilter:
             self.motion_weights_priors = {}
             for subject in self.canonical_joints.keys():
@@ -88,7 +86,6 @@ class Dataset(torch.utils.data.Dataset):
     def load_canonical_joints_all(self):
         name = 'canonical_joints'
         all_name_list = os.listdir(self.dataset_path)
-        # concat_dict = {}
         canonical_joints = {}
         canonical_bbox = {}
         for all_name in all_name_list:

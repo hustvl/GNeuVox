@@ -31,10 +31,8 @@ def create_dataset(data_type='train'):
 
     # customize dataset arguments according to dataset type
     args['bgcolor'] = None if data_type == 'train' else cfg.bgcolor
-    # args['bgcolor'] = cfg.bgcolor
 
     args['now_subject'] = cfg.now_subject
-    # args['max_frames'] = cfg.max_frames
     if data_type == 'progress':
         total_train_imgs = _get_total_train_imgs(args['dataset_path'])
         args['skip'] = total_train_imgs // 16
@@ -46,11 +44,6 @@ def create_dataset(data_type='train'):
     dataset = dataset(**args)
     return dataset
 
-
-# def seed_worker(worker_id):
-#     worker_seed = torch.initial_seed() % 2**32
-#     np.random.seed(worker_seed)
-#     random.seed(worker_seed)
 
 
 def create_dataloader(data_type='train'):

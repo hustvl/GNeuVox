@@ -50,6 +50,9 @@ class Trainer(object):
 
         self.optimizer = optimizer
         self.update_lr = create_lr_updater()
+        
+        if cfg.resume and Trainer.ckpt_exists(cfg.load_net)==False:
+                raise NotImplementedError(f'pretrained model {cfg.load_net}.tar not exiting')
 
         if cfg.resume and Trainer.ckpt_exists(cfg.load_net):
             self.load_ckpt(f'{cfg.load_net}')
@@ -64,7 +67,6 @@ class Trainer(object):
         if "lpips" in cfg.train.lossweights.keys():
             self.lpips = LPIPS(net='vgg')
             set_requires_grad(self.lpips, requires_grad=False)
-            # self.lpips = nn.DataParallel(self.lpips).cuda()
             self.lpips = self.lpips.cuda()
 
 
@@ -107,18 +109,16 @@ class Trainer(object):
         lossweights = deepcopy(cfg.train.lossweights)
         loss_names = list(lossweights.keys())
 
-        # print(iter,lossweights,type(lossweights),lossweights.lpips)
-        # if iter<=300:
-        #     lossweights.lpips = 0
-        #     lossweights.mse = 10
-        #     # del loss_names[0]
-        # else:
-        #     lossweights.lpips = cfg.train.lossweights.lpips 
-        #     lossweights.mse = cfg.train.lossweights.mse
+        if iter<=300:
+            lossweights.lpips = 0
+            lossweights.mse = 10
+        else:
+            lossweights.lpips = cfg.train.lossweights.lpips 
+            lossweights.mse = cfg.train.lossweights.mse
 
 
-        lossweights.lpips = cfg.train.lossweights.lpips 
-        lossweights.mse = cfg.train.lossweights.mse
+        # lossweights.lpips = cfg.train.lossweights.lpips 
+        # lossweights.mse = cfg.train.lossweights.mse
 
         rgb = net_output['rgb']
         losses = self.get_img_rebuild_loss(
@@ -145,18 +145,13 @@ class Trainer(object):
 
     def train(self, epoch, train_dataloader):
         self.train_begin(train_dataloader=train_dataloader)
-
-        # print('dataset_path',train_dataloader.dataset_path)
-
         self.timer.begin()
 
-        # begin = time.time()
         
         for batch_idx, batch in enumerate(train_dataloader):
             
             if self.iter > cfg.train.maxiter:
                 break
-            # aaaa = time.time()
             self.optimizer.zero_grad()
 
             # only access the first batch as we process one image one time
@@ -170,9 +165,9 @@ class Trainer(object):
             if data['rays'].shape[1]==0:
                 print('\nfirst',data.keys(),data['rays'].shape)
                 continue
-            # bbb = time.time()
+
             net_output = self.network(**data)
-            # ccc = time.time()
+
 
             train_loss, loss_dict = self.get_loss(
                 iter= self.iter,
@@ -181,15 +176,10 @@ class Trainer(object):
                 bgcolor=data['bgcolor'] / 255.,
                 targets=data['target_patches'],
                 div_indices=data['patch_div_indices'])
-            # ddd = time.time()
 
             train_loss.backward()
             self.optimizer.step()
 
-            # fff = time.time()
-
-            # print('all',fff-begin,'dataload',aaaa-begin,'data_pocess',bbb-aaaa,'net_forward',ccc-bbb,'net_backward',fff-ddd,'computer loss',ddd-ccc)
-            # begin = fff
 
             if self.iter % cfg.train.log_interval == 0:
                 loss_str = f"Loss: {train_loss.item():.4f} ["
@@ -214,9 +204,6 @@ class Trainer(object):
                 is_reload_model = self.progress()
 
             if not is_reload_model:
-                if self.iter % cfg.train.save_checkpt_interval == 0:
-                    self.save_ckpt('latest')
-
                 if cfg.save_all:
                     if self.iter % cfg.train.save_model_interval == 0:
                         self.save_ckpt(f'iter_{self.iter}')
@@ -226,7 +213,7 @@ class Trainer(object):
                 self.iter += 1
     
     def finalize(self):
-        self.save_ckpt('latest')
+        self.save_ckpt('latest_finish')
 
     ######################################################3
     ## Progress
@@ -306,20 +293,13 @@ class Trainer(object):
         path = Trainer.get_ckpt_path(name)
         print(f"Save checkpoint to {path} ...")
         state_dict = self.network.state_dict()
-        # print(state_dict.keys())
 
-        # del state_dict['voxel.module.k0']
-        
-        # del state_dict['voxel.module.k0_pre_scene']
+        # del state_dict['voxel.module.individual']
         # del state_dict['mweight_vol_decoder.const_embedding']
-
-
-        # print(state_dict.keys())
 
         torch.save({
             'iter': self.iter,
             'network': state_dict,
-            # 'optimizer': self.optimizer.state_dict()
         }, path)
 
     def load_ckpt(self, name):
@@ -330,7 +310,7 @@ class Trainer(object):
         self.iter = ckpt['iter'] + 1
 
         self.network.load_state_dict(ckpt['network'], strict=False)
-        # self.optimizer.load_state_dict(ckpt['optimizer'])
+
 
 
     def load_ckpt_self(self, name):

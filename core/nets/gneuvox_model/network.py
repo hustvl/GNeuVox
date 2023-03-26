@@ -1,6 +1,3 @@
-from ast import Num
-# from time import time
-import time
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -95,7 +92,6 @@ class Network(nn.Module):
         obpos_flat = torch.reshape(ob_xyz, [-1, ob_xyz.shape[-1]])
         rays_d_flat = torch.reshape(rays_d_br, [-1, pos_xyz.shape[-1]])
 
-        # print('same',pos_flat.shape , rays_d_flat.shape )
         chunk = cfg.netchunk_gpu
 
         result = self._apply_mlp_kernals(
@@ -137,7 +133,6 @@ class Network(nn.Module):
 
         
         for i in range(0, pos_flat.shape[0], chunk):
-            # aaa = time.time()
             start = i
             end = i + chunk
             if end > pos_flat.shape[0]:
@@ -148,23 +143,20 @@ class Network(nn.Module):
             obpos= obpos_flat[start:end]
 
 
-
-            # xyz_embedded = pos_embed_fn(xyz)
             obxyz_embedded = pos_embed_fn(obpos)
 
             dir_embedded = dir_embed_fn(dir)
 
-            k0 , k0_pre_scene =self.voxel(xyz=xyz,subject_id=subject_id.item())
+            general , individual =self.voxel(xyz=xyz,subject_id=subject_id.item())
 
 
-            k0_embedded  = self.voxel_embed_fn(k0)
-            k0_pre_scene_embedded  = self.voxel_embed_fn(k0_pre_scene)
+            general_embedded  = self.voxel_embed_fn(general)
+            individual_embedded  = self.voxel_embed_fn(individual)
 
-            time_id_ = torch.ones((k0_embedded.shape[0],1),device = k0_embedded.device)*time_id
+            time_id_ = torch.ones((general_embedded.shape[0],1),device = general_embedded.device)*time_id
             time_embedded  = self.time_embed_fn(time_id_)
 
-
-            raws += [self.cnl_mlp(k0_embedded,obxyz_embedded, dir_embedded,k0_pre_scene=k0_pre_scene_embedded,time_embedded=time_embedded)]
+            raws += [self.cnl_mlp(general_embedded,obxyz_embedded, dir_embedded,individual=individual_embedded,time_embedded=time_embedded)]
 
 
         output = {}
@@ -334,7 +326,6 @@ class Network(nn.Module):
                             output_list=['x_skel', 'fg_likelihood_mask'])
         pts_mask = mv_output['fg_likelihood_mask']
         cnl_pts = mv_output['x_skel']
-        # bbb = time.time()
         query_result = self._query_mlp(
                                 pos_xyz=cnl_pts,
                                 rays_d_br = rays_d_br,
@@ -375,7 +366,6 @@ class Network(nn.Module):
                 near=None, far=None,
                 iter_val=1e7,
                 **kwargs):
-        # aaaa = time.time()
         dst_Rs=dst_Rs[None, ...]
         dst_Ts=dst_Ts[None, ...]
         dst_posevec=dst_posevec[None, ...]
@@ -416,7 +406,7 @@ class Network(nn.Module):
             'motion_Ts': motion_Ts,
             'motion_weights_vol': motion_weights_vol
         })
-        # ccc= time.time()
+
         rays_o, rays_d = rays
         rays_shape = rays_d.shape 
 
@@ -428,8 +418,5 @@ class Network(nn.Module):
         for k in all_ret:
             k_shape = list(rays_shape[:-1]) + list(all_ret[k].shape[1:])
             all_ret[k] = torch.reshape(all_ret[k], k_shape)
-        # ddd = time.time()
 
-        # print("all " ,ddd-aaaa ,'redenr',ddd-ccc ,'mweight_vol_decoder',ccc-bbb)
-         # all  0.07725858688354492 redenr 0.06960606575012207 mweight_vol_decoder 0.005251884460449219
         return all_ret

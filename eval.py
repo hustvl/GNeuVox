@@ -19,7 +19,6 @@ EXCLUDE_KEYS_TO_GPU = ['frame_name',
                        'img_width', 'img_height']
 lpips = LPIPS(net='vgg')#.cuda()
 
-images_id = {'377':21,'386':128,'387':226,'392':25,'393':3,'394':1}
 def load_network():
     model = create_network()
     ckpt_path = os.path.join(cfg.logdir, f'{cfg.load_net}.tar')
@@ -63,7 +62,6 @@ def scale_for_lpips(image_tensor):
 
 
 def get_loss(rgb, target):
-    # lpips = LPIPS(net='vgg')#.cuda()
     lpips_loss = lpips(scale_for_lpips(rgb.permute(0, 3, 1, 2)), 
                        scale_for_lpips(target.permute(0, 3, 1, 2)))
     return torch.mean(lpips_loss).cpu().detach().numpy()
@@ -78,13 +76,9 @@ def evaluate():
     model = load_network()
     test_loader = create_dataloader('eval_cam')
     save_imgaes_path = cfg.logdir + '/eval_images_'+cfg.load_net+'_white'
-    # os.mkdir(save_imgaes_path,)
     os.makedirs(save_imgaes_path, exist_ok=True)
     model.eval()
-    # isubjec=images_id[str(cfg.now_object)]
     for idx, batch in enumerate(tqdm(test_loader)):
-        # if idx!=isubjec:
-        #     continue
         for k, v in batch.items():
             batch[k] = v[0]
 

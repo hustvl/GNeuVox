@@ -1,31 +1,33 @@
-task: 'mocap'
+task: 'run_zju_mocap'
 experiment: 'gneuvox'
-now_subject: '394'
+now_subject: '377'
 
 ##############################################3
 ## Data Configuration
 
 train:
   dataset_module: 'core.data.dataset.train'
-  dataset: 'gen_train'
+  dataset: '377_train'
 
 progress:
   dataset_module: 'core.data.dataset.train'
-  dataset: 'gen_test'
+  dataset: '377_test'
 
 movement:
   dataset_module: 'core.data.dataset.train'
-  dataset: '394_test'
+  dataset: '377_test'
+
 freeview:
   dataset_module: 'core.data.dataset.freeview'
-  dataset: 'gen_test'
+  dataset: '377_test'
+
 tpose:
   dataset_module: 'core.data.dataset.tpose'
-  dataset: '394_test'
-
+  dataset: '377_test'
+  
 eval_cam:
   dataset_module: 'core.data.dataset.eval_cam'
-  dataset: '394_test'
+  dataset: '377_test'
 
 bgcolor: [0., 0., 0.]
 resize_img_scale: 0.5

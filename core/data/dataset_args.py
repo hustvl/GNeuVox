@@ -3,7 +3,7 @@ from configs import cfg
 class DatasetArgs(object):
     dataset_attrs = {}
 
-    subjects = ['313', '315', '377', '386', '387', '390', '392', '393', '394','female-4-casual','female-3-casual','male-4-casual','male-3-casual']
+    subjects = ['313', '315', '377', '386', '387', '390', '392', '393', '394','female-4-casual','female-3-casual','male-4-casual','male-3-casual','selfdata']
 
     for sub in subjects:
         dataset_attrs.update({

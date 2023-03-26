@@ -31,3 +31,4 @@ eval_cam:
 
 bgcolor: [0., 0., 0.]
 resize_img_scale: 0.474
+load_net: iter_3000

@@ -29,13 +29,12 @@ class CanonicalMLP(nn.Module):
 
         rgbnet_width = mlp_width
         rgbnet_depth = 3
-        # dim0 = input_dir_ch + self.k0_dim 
 
-        input_dim = self.k0_dim + input_ch +input_time_ch
+        input_dim = self.k0_dim + input_ch +input_time_ch + + self.k0_dim
         featurenet_width = mlp_width
         featurenet_depth = 2
         self.featurenet = nn.Sequential(
-            nn.Linear(input_dim + self.k0_dim, featurenet_width), nn.ReLU(inplace=True),
+            nn.Linear(input_dim, featurenet_width), nn.ReLU(inplace=True),
             *[
                 nn.Sequential(nn.Linear(featurenet_width, featurenet_width), nn.ReLU(inplace=True))
                 for _ in range(featurenet_depth-1)
@@ -56,33 +55,20 @@ class CanonicalMLP(nn.Module):
 
 
 
-    # def forward(self, k0,xyz_embedded, dir_embedded,k0_pre_scene,**_):
-    #     # print(k0.shape)
-    #     rgb_feat = torch.cat([k0, k0_pre_scene ,xyz_embedded], -1)
-    #     feature = self.featurenet(rgb_feat)
-    #     rgb_logit = self.rgbnet(torch.cat([feature, dir_embedded], -1) )
-    #     density =self.densitynet(feature)
-    #     outputs = torch.cat([rgb_logit, (density+self.act_shift)], -1)
-    #     # outputs = self.output_linear(h)
 
-    #     return outputs    
-
-
-    def forward(self, k0,xyz_embedded, dir_embedded,k0_pre_scene,time_embedded,**_):
-        # print(k0.shape)
-        rgb_feat = torch.cat([k0, k0_pre_scene ,xyz_embedded ,time_embedded ], -1)
+    def forward(self, general,xyz_embedded, dir_embedded,individual,time_embedded,**_):
+        rgb_feat = torch.cat([general, individual ,xyz_embedded ,time_embedded ], -1)
         feature = self.featurenet(rgb_feat)
         density =self.densitynet(feature)
         
         mask = (density>=self.fast_color_thres)
-        # mask = mask.float()
+
         mask = mask.squeeze(1)    # mask
         density[mask==0] = 0
         dir_embedded_mask = dir_embedded[mask]
         feature_mask = feature[mask]
 
         rgb_logit = self.rgbnet(torch.cat([feature_mask, dir_embedded_mask], -1) )
-        # density =self.densitynet(feature)
         rgb_logit_all = torch.zeros([density.shape[0],3],device=density.device)
         rgb_logit_all[mask] = rgb_logit
 

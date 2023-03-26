@@ -1,5 +1,5 @@
 dataset:
-  zju_mocap_path: /data/taoranyi/data/zju_mocap
+  zju_mocap_path: ../../zju_mocap
   subject: '394'
   sex: 'neutral'
 

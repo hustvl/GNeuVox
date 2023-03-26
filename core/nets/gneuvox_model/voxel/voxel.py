@@ -21,12 +21,15 @@ class voxel_model(nn.Module):
         
         self.xyz_min = torch.tensor(xyz_min)
         self.xyz_max = torch.tensor(xyz_max)
-        self.init = False
         num_voxels = num_voxels**3
         self._set_grid_resolution(num_voxels)
         self.k0_dim = k0_dim
-        self.k0 = torch.nn.Parameter(torch.zeros([1, self.k0_dim, *self.world_size]))
-        self.k0_pre_scene = torch.nn.Parameter(torch.zeros([1, self.k0_dim*1, *self.world_size]))
+        self.general = torch.nn.Parameter(torch.zeros([1, self.k0_dim, *self.world_size]))
+        self.individual = torch.nn.Parameter(torch.zeros([1, self.k0_dim*1, *self.world_size]))
+        print('########### voxel size ###########')
+        print('general voxel:',self.general.shape)
+        print('individual voxel:',self.individual.shape)
+
 
 
 
@@ -83,9 +86,11 @@ class voxel_model(nn.Module):
         
         return vox_feature_flatten
 
+
     def forward(self,  xyz,subject_id=None):
 
-        k0 = self.mult_dist_interp(xyz,self.k0)
-        k0_pre_scene = self.mult_dist_interp(xyz ,self.k0_pre_scene)
-        return k0 , k0_pre_scene
+        individual = self.mult_dist_interp(xyz,self.individual)
+        general = self.mult_dist_interp(xyz ,self.general)
+        return general , individual
+
         

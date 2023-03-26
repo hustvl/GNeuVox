@@ -71,7 +71,6 @@ def main(argv):
         subject_dir = os.path.join(dataset_dir, f"CoreView_{subject}")
         smpl_params_dir = os.path.join(subject_dir, "new_params")
         select_view_str=str(select_view)
-        # select_view = cfg['training_view']
 
         anno_path = os.path.join(subject_dir, 'annots.npy')
         annots = np.load(anno_path, allow_pickle=True).item()
@@ -106,9 +105,6 @@ def main(argv):
         os.makedirs(output_path, exist_ok=True)
         out_img_dir  = prepare_dir(output_path, 'images')
         out_mask_dir = prepare_dir(output_path, 'masks')
-        
-        # out_mesh_dir = prepare_dir(output_path, 'masks')
-        # out_cam_dir = prepare_dir(output_path, 'masks')
 
 
         # copy config file

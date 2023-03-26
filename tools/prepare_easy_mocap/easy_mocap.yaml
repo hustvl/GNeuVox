@@ -1,12 +1,10 @@
 dataset:
   zju_mocap_path: ../../easy_mocap
   subject: 'selfdata'
+  view_name: '0'  # same as name of the video
   sex: 'neutral'
 
-training_view: 0
-max_frames: 1000
-frame_skip: 4
 
 output:
   dir: ../../processed_data
-  name: 'female-3-casual'
+  name: 'selfdata'

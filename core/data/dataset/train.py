@@ -44,8 +44,6 @@ class Dataset(torch.utils.data.Dataset):
         self.canonical_joints, self.canonical_bbox = \
             self.load_canonical_joints_all()
 
-
-        self.subject_dict = {'313':0,'377':1,'386':2,'387':3,'390':4,'392':5,'393':6,'394':7}
         if 'motion_weights_priors' in keyfilter:
             self.motion_weights_priors = {}
             for subject in self.canonical_joints.keys():
@@ -87,7 +85,6 @@ class Dataset(torch.utils.data.Dataset):
     def load_canonical_joints_all(self):
         name = 'canonical_joints'
         all_name_list = os.listdir(self.dataset_path)
-        # concat_dict = {}
         canonical_joints = {}
         canonical_bbox = {}
         for all_name in all_name_list:
@@ -102,15 +99,11 @@ class Dataset(torch.utils.data.Dataset):
     
 
     def load_train_cameras_all(self):
-
         name = 'cameras'
         all_name_list = os.listdir(self.dataset_path)
-        # concat_dict = {}
         cameras = {}
-        # canonical_bbox = {}
         for all_name in all_name_list:
             if name in all_name:
-                subject = all_name[8:11]
                 path = os.path.join(self.dataset_path, all_name)
                 with open(path, 'rb') as f:
                     cameras_one = pickle.load(f)
@@ -144,15 +137,12 @@ class Dataset(torch.utils.data.Dataset):
 
         for all_name in all_name_list:
             if name in all_name:
-                # subject = all_name[-7:-4]
                 path = os.path.join(self.dataset_path, all_name)
-                # print(path , all_name,subject)
+
                 with open(path, 'rb') as f:
                     mesh_infos_one = pickle.load(f)
                     mesh_infos.update(mesh_infos_one)
-        # mesh_infos = None
-        # with open(os.path.join(self.dataset_path, 'mesh_infos.pkl'), 'rb') as f:   
-        #     mesh_infos = pickle.load(f)
+
 
         for frame_name in mesh_infos.keys():
             bbox = self.skeleton_to_bbox(mesh_infos[frame_name]['joints'])
@@ -183,7 +173,6 @@ class Dataset(torch.utils.data.Dataset):
         return [split_path(ipath)[1] for ipath in img_paths]
     
     def query_dst_skeleton(self, frame_name):
-        # print(self.mesh_infos.keys())
         return {
             'poses': self.mesh_infos[frame_name]['poses'].astype('float32'),
             'dst_tpose_joints': \
@@ -275,20 +264,15 @@ class Dataset(torch.utils.data.Dataset):
 
         if valid_ys.shape[0]==0:
             print('shape',candidate_mask.shape,valid_ys.shape)
-        # print('\nbegin',valid_ys.shape[0])
 
         # determine patch center
-        # select_idx = np.random.choice(valid_ys.shape[0], 
-        #                               size=[1], replace=False)[0]
         if valid_ys.shape[0]!=0:
             select_idx = random.randint(0,valid_ys.shape[0]-1)
-            # print('end',select_idx)
             center_x = valid_xs[select_idx]
             center_y = valid_ys[select_idx]
         else:
             center_x = random.randint(0,candidate_mask.shape[0]-1)
             center_y = random.randint(0,candidate_mask.shape[0]-1)
-        # print('centry',candidate_mask.shape,center_x,center_y)
         # determine patch boundary
         half_patch_size = patch_size // 2
         x_min = np.clip(a=center_x-half_patch_size, 
@@ -389,8 +373,9 @@ class Dataset(torch.utils.data.Dataset):
         re_set = 0
         frame_name = self.framelist[idx]
         frame_name_split_list = frame_name.split('_')
-        subject =  self.now_subject 
+        subject =  frame_name_split_list[1]
         time_int = int(frame_name_split_list[2])
+        assert subject == self.now_subject, "Loading error"
         results = {
             'frame_name': frame_name,
             'time_id':time_int/1000.0,

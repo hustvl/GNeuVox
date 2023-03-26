@@ -1,4 +1,4 @@
-task: 'mocap_mse'
+task: 'run_h36m_pre'
 experiment: 'female-4-casual'
 now_subject: 'female-4-casual'
 

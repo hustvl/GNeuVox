@@ -1,33 +1,34 @@
-task: 'run_h36m_pre'
-experiment: 'female-3-casual'
-now_subject: 'female-3-casual'
+task: 'do_it'
+experiment: 'selfdata'
+now_subject: 'selfdata'
 
 ##############################################3
 ## Data Configuration
 
 train:
   dataset_module: 'core.data.dataset.train'
-  dataset: 'female-3-casual_train'
+  dataset: 'selfdata_train'
 
 progress:
   dataset_module: 'core.data.dataset.train'
-  dataset: 'female-3-casual_test'
+  dataset: 'selfdata_test'
 
 movement:
   dataset_module: 'core.data.dataset.train'
-  dataset: 'female-3-casual_test'
+  dataset: 'selfdata_test'
 
 freeview:
   dataset_module: 'core.data.dataset.freeview'
-  dataset: 'female-3-casual_test'
+  dataset: 'selfdata_test'
 
 tpose:
   dataset_module: 'core.data.dataset.tpose'
-  dataset: 'female-3-casual_test'
+  dataset: 'selfdata_test'
 
 eval_cam:
   dataset_module: 'core.data.dataset.eval_cam'
-  dataset: 'female-3-casual_test'
+  dataset: 'selfdata_test'
 
 bgcolor: [0., 0., 0.]
 resize_img_scale: 0.474
+load_net: latest_finish

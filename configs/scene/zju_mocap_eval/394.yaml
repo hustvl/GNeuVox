@@ -1,33 +1,32 @@
-task: 'run_h36m_pre'
-experiment: 'female-3-casual'
-now_subject: 'female-3-casual'
+task: 'run_zju_mocap'
+experiment: 'gneuvox'
+now_subject: '394'
 
 ##############################################3
 ## Data Configuration
 
 train:
   dataset_module: 'core.data.dataset.train'
-  dataset: 'female-3-casual_train'
+  dataset: '394_train'
 
 progress:
   dataset_module: 'core.data.dataset.train'
-  dataset: 'female-3-casual_test'
+  dataset: '394_test'
 
 movement:
   dataset_module: 'core.data.dataset.train'
-  dataset: 'female-3-casual_test'
-
+  dataset: '394_test'
 freeview:
   dataset_module: 'core.data.dataset.freeview'
-  dataset: 'female-3-casual_test'
-
+  dataset: '394_test'
 tpose:
   dataset_module: 'core.data.dataset.tpose'
-  dataset: 'female-3-casual_test'
+  dataset: '394_test'
 
 eval_cam:
   dataset_module: 'core.data.dataset.eval_cam'
-  dataset: 'female-3-casual_test'
+  dataset: '394_test'
 
 bgcolor: [0., 0., 0.]
-resize_img_scale: 0.474
+resize_img_scale: 0.5
+load_net: latest_finish

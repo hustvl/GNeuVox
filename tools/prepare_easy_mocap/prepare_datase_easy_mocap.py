@@ -70,9 +70,8 @@ def prepare_dir(output_path, name):
 
 
 def get_mask(subject_dir, img_name,subject):
-    # print('get_mask',subject_dir, img_name)
     msk_path = os.path.join(subject_dir ,'masks',
-                            'frame_'+subject+'_'+img_name)[:-4] + '.png'
+                            img_name)[:-4] + '.png'
     msk = np.array(load_image(msk_path))[:, :, 0]
     msk = (msk != 0).astype(np.uint8)
 
@@ -85,18 +84,16 @@ def main(argv):
     del argv  # Unused.
     cfg = parse_config()
     subject = cfg['dataset']['subject']
+    view_name = cfg['dataset']['view_name']
     dataset_dir = cfg['dataset']['zju_mocap_path']
-    subject_dir = os.path.join(cfg['dataset']['zju_mocap_path'], f"{subject}")
+    subject_dir = os.path.join(dataset_dir, f"{subject}")
     sex = cfg['dataset']['sex']
     print('subject',subject)
-    max_frames = cfg['max_frames']
-    print('max_frames',max_frames)
 
-    max_frames = cfg['max_frames']
 
 
     # load image paths
-    img_paths = os.path.join(subject_dir,'images', '0')
+    img_paths = os.path.join(subject_dir,'images', view_name)
     img_paths_all = os.listdir(img_paths)
     img_paths_all.sort(key=lambda x: int(x[:-4]))
 
@@ -112,7 +109,7 @@ def main(argv):
     copyfile(FLAGS.cfg, os.path.join(output_path, 'config.yaml'))
 
     smpl_model = SMPL(sex=sex, model_dir=MODEL_DIR)
-    smpl_params_dir = os.path.join(subject_dir, 'output-smpl-3d/smplfull/0')
+    smpl_params_dir = os.path.join(subject_dir, 'output-smpl-3d/smplfull',view_name)
 
 
     cameras = {}
@@ -121,7 +118,6 @@ def main(argv):
     for idx, ipath in enumerate(tqdm(img_paths_all)):
 
         img_path = os.path.join(img_paths, ipath)
-        print(ipath)
         # load image
         img = np.array(load_image(img_path))
         img_name = ipath.split('.')[0]
