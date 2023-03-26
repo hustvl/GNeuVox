@@ -5,7 +5,7 @@
 [Taoran Yi](https://github.com/taoranyi)<sup>1*</sup>, 
 [Jiemin Fang](https://jaminfong.cn/)<sup>2,1*</sup>, [Xinggang Wang](https://xinggangw.info/)<sup>1✉</sup>,  [Wenyu Liu](http://eic.hust.edu.cn/professor/liuwenyu/)<sup>1</sup>  
 <sup>1</sup>School of EIC, HUST &emsp; <sup>2</sup>Institute of AI, HUST &emsp;  
-<sup>*</sup>denotes equal contributions.
+<sup>*</sup> denotes equal contributions.
 
 ![block](./imgs/framework.png)
 In this paper, we propose a rendering framework that can learn moving human body structures extremely quickly from a monocular video, named as GNeuVox. The framework is built by integrating both neural fields and neural voxels. Especially, a set of generalizable neural voxels are constructed. With pretrained on various human bodies, these general voxels represent a basic skeleton and can provide strong geometric priors. For the fine-tuning process, individual voxels are constructed for learning differential textures, complementary to general voxels. Thus learning a novel body can be further accelerated, taking only a few minutes. Our method shows significantly higher training efficiency compared with previous methods, while maintaining similar rendering quality.
