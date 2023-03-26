@@ -1,8 +1,7 @@
 # GNeuVox: Generalizable Neural Voxels for Fast Human Radiance Fields
 ### [Project Page](https://taoranyi.github.io/geneuvox) | [Arxiv Paper](https://arxiv.org/abs/) | [Video](https://youtu.be/fzaKbZhKIFI)
 
-[Generalizable Neural Voxels for Fast Human Radiance Fields](https://taoranyi.github.io/geneuvox)
-
+[Generalizable Neural Voxels for Fast Human Radiance Fields](https://taoranyi.github.io/geneuvox)  
 [Taoran Yi](https://github.com/taoranyi)<sup>1*</sup>, 
 [Jiemin Fang](https://jaminfong.cn/)<sup>2,1*</sup>, [Xinggang Wang](https://xinggangw.info/)<sup>1✉</sup>,  [Wenyu Liu](http://eic.hust.edu.cn/professor/liuwenyu/)<sup>1</sup>  
 <sup>1</sup>School of EIC, HUST &emsp; <sup>2</sup>Institute of AI, HUST &emsp;  
