@@ -5,8 +5,7 @@
 
 [Taoran Yi](https://github.com/taoranyi)<sup>1*</sup>, 
 [Jiemin Fang](https://jaminfong.cn/)<sup>2,1*</sup>, [Xinggang Wang](https://xinggangw.info/)<sup>1✉</sup>,  [Wenyu Liu](http://eic.hust.edu.cn/professor/liuwenyu/)<sup>1</sup>  
-<sup>1</sup>School of EIC, HUST &emsp; <sup>2</sup>Institute of AI, HUST &emsp; 
-
+<sup>1</sup>School of EIC, HUST &emsp; <sup>2</sup>Institute of AI, HUST &emsp;  
 <sup>*</sup>denotes equal contributions.
 
 ![block](./imgs/framework.png)
