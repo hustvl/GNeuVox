@@ -98,6 +98,10 @@ GNeuVox  |✗ |10k|50 mins| 30.26 |0.9678| 3.450
 GNeuVox   |ZJU-MoCap |1k |5 mins|30.26 |0.9682| 3.420
 GNeuVox | Human3.6M |3k |15 mins |30.11 |0.9677 |3.399
 
+
+## Acknowledgements
+Our code is partially based on [HumanNeRF](https://github.com/chungyiweng/humannerf) and [DirectVoxGO](https://github.com/sunset1995/directvoxgo). Thanks for their awesome works.
+
 ## Citation
 If you find this repository/work helpful in your research, welcome to cite the paper and give a ⭐.
 ```
