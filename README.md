@@ -1,5 +1,5 @@
 # GNeuVox: Generalizable Neural Voxels for Fast Human Radiance Fields
-### [Project Page](http://taoranyi.com/gneuvox/) | [Arxiv Paper](https://arxiv.org/abs/) | [Video](https://youtu.be/fzaKbZhKIFI)
+### [Project Page](http://taoranyi.com/gneuvox/) | [Arxiv Paper](https://arxiv.org/abs/2303.15387) | [Video](https://youtu.be/fzaKbZhKIFI)
 
 [Generalizable Neural Voxels for Fast Human Radiance Fields](https://taoranyi.github.io/geneuvox)  
 [Taoran Yi](https://github.com/taoranyi)<sup>1*</sup>, 
@@ -98,3 +98,13 @@ GNeuVox  |✗ |10k|50 mins| 30.26 |0.9678| 3.450
 GNeuVox   |ZJU-MoCap |1k |5 mins|30.26 |0.9682| 3.420
 GNeuVox | Human3.6M |3k |15 mins |30.11 |0.9677 |3.399
 
+## Citation
+If you find this repository/work helpful in your research, welcome to cite the paper and give a ⭐.
+```
+@article{tineuvox,
+        title={Generalizable Neural Voxels for Fast Human Radiance Fields},
+        author={Taoran Yi and Jiemin Fang and Xinggang Wang and Wenyu Liu},
+        journal={arxiv:2303.15387},
+        year={2023}
+        }
+```
