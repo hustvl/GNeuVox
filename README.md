@@ -101,7 +101,7 @@ GNeuVox | Human3.6M |3k |15 mins |30.11 |0.9677 |3.399
 ## Citation
 If you find this repository/work helpful in your research, welcome to cite the paper and give a ⭐.
 ```
-@article{tineuvox,
+@article{gneuvox,
         title={Generalizable Neural Voxels for Fast Human Radiance Fields},
         author={Taoran Yi and Jiemin Fang and Xinggang Wang and Wenyu Liu},
         journal={arxiv:2303.15387},
